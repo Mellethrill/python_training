@@ -64,3 +64,14 @@ class ContactHelper:
         wd.find_element_by_name("notes").send_keys(contact.notes)
         # submit contact creation
         wd.find_element_by_xpath("//input[21]").click()
+
+
+    def delete_first_contact(self):
+        wd = self.app.wd
+        # go to contact page
+        wd.find_element_by_link_text("home").click()
+        # select edit first contact
+        wd.find_element_by_css_selector("img[title='Edit']").click()
+        # delete contact
+        wd.find_element_by_css_selector("input[value='Delete']").click()
+
