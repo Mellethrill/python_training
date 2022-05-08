@@ -11,6 +11,9 @@ class ContactHelper:
         # init add contact creation
         wd.find_element_by_link_text("add new").click()
         self.fill_contact(contact)
+        # submit create
+        wd.find_element_by_name("submit").click()
+
 
     def fill_contact(self, contact):
         wd = self.app.wd
@@ -67,8 +70,6 @@ class ContactHelper:
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(contact.notes)
-        # submit contact creation
-        wd.find_element_by_xpath("//input[21]").click()
 
     def delete_first_contact(self):
         wd = self.app.wd
@@ -88,5 +89,12 @@ class ContactHelper:
         wd.find_element_by_css_selector("img[title='Edit']").click()
         # fill contact
         self.fill_contact(contact)
+        # submit modification
+        wd.find_element_by_name("update").click()
+
+    def count(self):
+        wd = self.app.wd
+        wd.find_element_by_link_text("home").click()
+        return len(wd.find_elements_by_name("selected[]"))
 
 
