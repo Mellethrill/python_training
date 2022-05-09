@@ -11,11 +11,11 @@ class Contact:
         self.title = title
         self.company = company
         self.address = address
-        self.phone_home = phone_home
-        self.phone_mobile = phone_mobile
-        self.phone_work = phone_work
-        self.phone_fax = phone_fax
-        self.email1 = email1
+        self.home = phone_home
+        self.mobile = phone_mobile
+        self.work = phone_work
+        self.fax = phone_fax
+        self.email = email1
         self.email2 = email2
         self.email3 = email3
         self.homepage = homepage
@@ -25,14 +25,15 @@ class Contact:
         self.id = id
 
     def __repr__(self):
-        return "%s:%s" % (self.id)
+        return "%s:%s" % (self.id, self.firstname)
 
     def __eq__(self, other):
-        return self.id is None or other.id is None or self.id == other.id
+        return (self.id is None or other.id is None or self.id == other.id) and self.firstname == other.firstname
 
     def id_or_max(self):
         if self.id:
             return int(self.id)
         else:
             return maxsize
+
 
