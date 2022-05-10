@@ -6,7 +6,7 @@ def test_del_contact(app):
                             phone_mobile="1", phone_work="1", phone_fax="1", email1="test@ya.ru", email2="test@ya.com", email3="test@ya.net", homepage="test", address2="test", phone2="test", notes="test"))
     old_contacts = app.contact.get_contact_list()
     app.contact.delete_first_contact()
+    assert len(old_contacts) - 1 == app.contact.count()
     new_contacts = app.contact.get_contact_list()
-    assert len(old_contacts) - 1 == len(new_contacts)
     old_contacts[0:1] = []
     assert old_contacts == new_contacts
