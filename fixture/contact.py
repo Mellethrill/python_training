@@ -46,41 +46,56 @@ class ContactHelper:
             wd.find_element_by_name(field_name).send_keys(text)
 
     def delete_first_contact(self):
+        self.delete_contact_by_index(0)
+
+    def select_contact_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
+
+    def delete_contact_by_index(self, index):
         wd = self.app.wd
         self.open_contact_page()
-        # select edit first contact
-        wd.find_element_by_css_selector("img[title='Edit']").click()
+        self.select_contact_by_index(index)
         # delete contact
         wd.find_element_by_css_selector("input[value='Delete']").click()
+        wd.switch_to.alert.accept()
+        self.return_to_contact_page()
         self.contact_cache = None
 
-
-    def modification_first_contact(self, contact):
+    def modification_contact_by_index(self, index, new_contact_data):
         wd = self.app.wd
         self.open_contact_page()
-        # select edit first contact
-        wd.find_element_by_css_selector("img[title='Edit']").click()
+        # select random contact
+        wd.find_elements_by_css_selector("img[title='Edit']")[index].click()
         # fill contact
-        self.fill_contact(contact)
+        self.fill_contact(new_contact_data)
         # submit modification
         wd.find_element_by_name("update").click()
+        self.open_contact_page()
         self.contact_cache = None
+
+    def modification_first_contact(self):
+        self.modification_contact_by_index(0)
 
     def open_contact_page(self):
         wd = self.app.wd
         if not (wd.current_url.endswith("/edit.php") and len(wd.find_elements_by_link_text("Select all")) > 0):
             wd.find_element_by_link_text("home").click()
 
-    def count(self):
+    def return_to_contact_page(self):
         wd = self.app.wd
         wd.find_element_by_link_text("home").click()
+
+    def count(self):
+        wd = self.app.wd
+        self.open_contact_page()
         return len(wd.find_elements_by_name("selected[]"))
 
     contact_cache = None
 
     def get_contact_list(self):
-        wd = self.app.wd
         if self.contact_cache is None:
+            wd = self.app.wd
             self.open_contact_page()
             self.contact_cache = []
             for element in wd.find_elements_by_css_selector("tr[name]"):

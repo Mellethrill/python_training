@@ -99,8 +99,6 @@ class GroupHelper:
     def modify_first_group(self):
         self.modify_group_by_index(0)
 
-
-
     def count(self):
         wd = self.app.wd
         self.open_groups_page()
